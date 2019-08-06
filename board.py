@@ -37,7 +37,12 @@ def DisplayBoard():
 
 def turnHandler():
     print("Input position.\n")
-    position = input()
+    print("Input Column [1-3]")
+    while input() != 1 or input() != 2 or input() != 3:
+        print("Input Column [1-3]")
+        column = input()
+    print("Input Row [1-3]")
+    row = input()
 
 
 def playGame():
