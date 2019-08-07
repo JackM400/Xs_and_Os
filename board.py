@@ -127,9 +127,25 @@ def changePlayer():
 
 
 def turnHandler(player):
+    isValid = False
+
+    print("current turn : " + player)
     print("Input position [1 - 9]")
     position = input()
-    position = int(position) - 1
+
+    while not isValid:
+        while position != 1 or position != 2 or position != 3 or position != 4 or position != 5 or \
+                position != 6 or position != 7 or position != 8 or position != 9:
+            print("Invalid move:")
+            print("Input position [1 - 9]")
+            position = input()
+            position = int(position) - 1
+
+            if GameBoard[position] == "_":
+                isValid = True
+            else:
+                print("Invalid move:")
+
     GameBoard[position] = player
     DisplayBoard()
 
@@ -140,7 +156,6 @@ def gameEnd():
         print("winner is " + gameWinner)
     if tieCheck():
         print("Tie")
-
 
 
 def playGame():
