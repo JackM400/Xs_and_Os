@@ -48,37 +48,73 @@ def rowChecks():
     row_1 = GameBoard[0] == GameBoard[1] == GameBoard[2] != "-"
     row_2 = GameBoard[3] == GameBoard[4] == GameBoard[5] != "-"
     row_3 = GameBoard[6] == GameBoard[7] == GameBoard[8] != "-"
-    gameHasNext = False
-    return True
+    if row_1 or row_2 or row_3:
+        gameHasNext = False
+    elif row_1:
+        return GameBoard[0]
+    elif row_2:
+        return GameBoard[3]
+    elif row_3:
+        return GameBoard[6]
+    return
 
 
 def columnChecks():
+    global gameHasNext
+    col_1 = GameBoard[0] == GameBoard[3] == GameBoard[6] != "-"
+    col_2 = GameBoard[1] == GameBoard[4] == GameBoard[7] != "-"
+    col_3 = GameBoard[2] == GameBoard[5] == GameBoard[8] != "-"
+    if col_1 or col_2 or col_3:
+        gameHasNext = False
+    elif col_1:
+        return GameBoard[0]
+    elif col_2:
+        return GameBoard[1]
+    elif col_3:
+        return GameBoard[2]
     return
 
 
 def diagonalChecks():
+    global gameHasNext
+    dia_1 = GameBoard[0] == GameBoard[4] == GameBoard[8] != "-"
+    dia_2 = GameBoard[2] == GameBoard[4] == GameBoard[6] != "-"
+    if dia_1 or dia_2:
+        gameHasNext = False
+    elif dia_1:
+        return GameBoard[0]
+    elif dia_2:
+        return GameBoard[1]
     return
 
 
 def winCheck():
     global gameWinner
-    rowwinner = rowChecks()
-    colwinner = columnChecks()
-    diawinner = diagonalChecks()
+    rowwinner = rowChecks
+    colwinner = columnChecks
+    diawinner = diagonalChecks
     if rowwinner or colwinner or diawinner:
-    # winner this turn
-    # TODO winner assign
-    elif
-    # no winner this turn
-    winner = None
+        # winner this turn
+        # TODO winner assign
+    else:
+        # no winner this turn
+        gameWinner = None
     return
 
 
 def tieCheck():
+    global gameHasNext
+    if "-" not in GameBoard:
+        gameHasNext = False
     return
 
 
 def changePlayer():
+    global turnPlayer
+    if turnPlayer == "X":
+        turnPlayer = "O"
+    else:
+        turnPlayer = "X"
     return
 
 
@@ -86,6 +122,7 @@ def turnHandler(player):
     print("Input position [1 - 9]")
     position = input()
     position = int(position) - 1
+    GameBoard[position] = player
 
 
 def gameEnd():
