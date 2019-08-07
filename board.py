@@ -8,11 +8,10 @@
 #  change player
 
 
-GameBoard = [
-    [" _ ", " _ ", " _ "],
-    [" _ ", " _ ", " _ "],
-    [" _ ", " _ ", " _ "]
-]
+GameBoard = [" _ ", " _ ", " _ ",
+             " _ ", " _ ", " _ ",
+             " _ ", " _ ", " _ "]
+
 player1: str = ""
 player2 = ""
 
@@ -29,20 +28,18 @@ def playerName():
 
 def DisplayBoard():
     # print(GameBoard)
-    for i in GameBoard:
-        print(i)
+    print(GameBoard[0] + "| " + GameBoard[1] + "| " + GameBoard[2])
+    print(GameBoard[3] + "| " + GameBoard[4] + "| " + GameBoard[5])
+    print(GameBoard[6] + "| " + GameBoard[7] + "| " + GameBoard[8])
+
     print('Player 1: ' + player1 + " is X")
     print('Player 2: ' + player2 + " is O")
 
 
 def turnHandler():
-    print("Input position.\n")
-    print("Input Column [1-3]")
-    while input() != 1 or input() != 2 or input() != 3:
-        print("Input Column [1-3]")
-        column = input()
-    print("Input Row [1-3]")
-    row = input()
+    print("Input position [1 - 9]")
+    position = input()
+    position = int(position) - 1
 
 
 def playGame():
