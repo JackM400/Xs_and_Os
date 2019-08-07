@@ -1,13 +1,8 @@
-# TODO
-#  Generate Board ,
-#  display ,
-#  start up ,
-#  handler ,
-#  scan board ,
-#  no-winner check ,
-#  change player
+# JackM400
+# jack.millar400@gmail.com
 
 
+# holds game board state
 GameBoard = ["_", "_", "_",
              "_", "_", "_",
              "_", "_", "_"]
@@ -18,7 +13,20 @@ gameWinner = None
 turnPlayer = "X"
 
 
-def playerName():
+# main function
+def playGame():
+    getPlayerName()
+    playerDeclaration()  # print players
+    DisplayBoard()
+    # loop until game end state reached
+    while gameHasNext:
+        turnHandler(turnPlayer)
+        GameOverCheck()
+        changePlayer()
+    gameEnd()
+
+
+def getPlayerName():
     print("Player 1 input name:")
     global player1
     player1 = input()
@@ -47,9 +55,11 @@ def GameOverCheck():
 
 def rowChecks():
     global gameHasNext
+    # checks across table for same character
     row_1 = GameBoard[0] == GameBoard[1] == GameBoard[2] != "_"
     row_2 = GameBoard[3] == GameBoard[4] == GameBoard[5] != "_"
     row_3 = GameBoard[6] == GameBoard[7] == GameBoard[8] != "_"
+    # return winner
     if row_1 or row_2 or row_3:
         gameHasNext = False
     if row_1:
@@ -64,9 +74,11 @@ def rowChecks():
 
 def columnChecks():
     global gameHasNext
+    # checks down table for same character
     col_1 = GameBoard[0] == GameBoard[3] == GameBoard[6] != "_"
     col_2 = GameBoard[1] == GameBoard[4] == GameBoard[7] != "_"
     col_3 = GameBoard[2] == GameBoard[5] == GameBoard[8] != "_"
+    # return winner
     if col_1 or col_2 or col_3:
         gameHasNext = False
     if col_1:
@@ -81,8 +93,10 @@ def columnChecks():
 
 def diagonalChecks():
     global gameHasNext
+    # checks across table for same character
     dia_1 = GameBoard[0] == GameBoard[4] == GameBoard[8] != "_"
     dia_2 = GameBoard[2] == GameBoard[4] == GameBoard[6] != "_"
+    # return winner
     if dia_1 or dia_2:
         gameHasNext = False
     if dia_1:
@@ -98,6 +112,7 @@ def winCheck():
     rowwinner = rowChecks()
     colwinner = columnChecks()
     diawinner = diagonalChecks()
+    # get winner
     if rowwinner:
         gameWinner = rowwinner
     elif colwinner:
@@ -110,9 +125,11 @@ def winCheck():
 
 def tieCheck():
     global gameHasNext
+    # if all slots used , no win possible
     if "_" not in GameBoard:
         gameHasNext = False
         return True
+    # no tie
     else:
         return False
 
@@ -126,47 +143,41 @@ def changePlayer():
     return
 
 
+# change player
 def turnHandler(player):
     isValid = False
 
+    # get initial input
     print("current turn : " + player)
     print("Input position [1 - 9]")
     position = input()
 
     while not isValid:
-        while position != 1 or position != 2 or position != 3 or position != 4 or position != 5 or \
-                position != 6 or position != 7 or position != 8 or position != 9:
-            print("Invalid move:")
+        # check if valid move
+        while position not in ["1", "2", "3", "4", "5", "6", "7", "8", "9"]:
+            print("Invalid move: Not a move")
             print("Input position [1 - 9]")
             position = input()
-            position = int(position) - 1
 
-            if GameBoard[position] == "_":
-                isValid = True
-            else:
-                print("Invalid move:")
-
+        position = int(position) - 1
+        # check if position taken
+        if GameBoard[position] == "_":
+            isValid = True
+        else:
+            print("Invalid move: Taken position")
+    # insert player token into position
     GameBoard[position] = player
+    # show updated board
     DisplayBoard()
 
 
 def gameEnd():
-    print("Game Over.")
+    print("Game Over:")
     if gameWinner == "X" or gameWinner == "O":
-        print("winner is " + gameWinner)
+        print("Winner is " + gameWinner)
     if tieCheck():
         print("Tie")
 
 
-def playGame():
-    playerName()
-    playerDeclaration()
-    DisplayBoard()
-    while gameHasNext:
-        turnHandler(turnPlayer)
-        GameOverCheck()
-        changePlayer()
-    gameEnd()
-
-
+# run game
 playGame()
