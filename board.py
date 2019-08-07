@@ -44,7 +44,12 @@ def GameOverCheck():
 
 
 def rowChecks():
-    return
+    global gameHasNext
+    row_1 = GameBoard[0] == GameBoard[1] == GameBoard[2] != "-"
+    row_2 = GameBoard[3] == GameBoard[4] == GameBoard[5] != "-"
+    row_3 = GameBoard[6] == GameBoard[7] == GameBoard[8] != "-"
+    gameHasNext = False
+    return True
 
 
 def columnChecks():
@@ -56,9 +61,16 @@ def diagonalChecks():
 
 
 def winCheck():
-    rowChecks()
-    columnChecks()
-    diagonalChecks()
+    global gameWinner
+    rowwinner = rowChecks()
+    colwinner = columnChecks()
+    diawinner = diagonalChecks()
+    if rowwinner or colwinner or diawinner:
+    # winner this turn
+    # TODO winner assign
+    elif
+    # no winner this turn
+    winner = None
     return
 
 
