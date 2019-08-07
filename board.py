@@ -11,8 +11,11 @@
 GameBoard = [" _ ", " _ ", " _ ",
              " _ ", " _ ", " _ ",
              " _ ", " _ ", " _ "]
+gameHasNext = True
 player1 = ""
 player2 = ""
+gameWinner = "no winner"
+turnPlayer = "X"
 
 
 def playerName():
@@ -40,7 +43,22 @@ def GameOverCheck():
     tieCheck()
 
 
+def rowChecks():
+    return
+
+
+def columnChecks():
+    return
+
+
+def diagonalChecks():
+    return
+
+
 def winCheck():
+    rowChecks()
+    columnChecks()
+    diagonalChecks()
     return
 
 
@@ -58,13 +76,22 @@ def turnHandler(player):
     position = int(position) - 1
 
 
+def gameEnd():
+    print("Game Over.")
+    if tieCheck():
+        print("Tie " + gameWinner)
+    elif gameWinner == "X" or gameWinner == "O":
+        print("winner is " + gameWinner)
+
+
 def playGame():
     playerName()
     DisplayBoard()
     while gameHasNext:
-        turnHandler(player)
+        turnHandler()
         GameOverCheck()
         changePlayer()
+    gameEnd()
 
 
 playGame()
