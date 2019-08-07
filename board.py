@@ -11,8 +11,7 @@
 GameBoard = [" _ ", " _ ", " _ ",
              " _ ", " _ ", " _ ",
              " _ ", " _ ", " _ "]
-
-player1: str = ""
+player1 = ""
 player2 = ""
 
 
@@ -36,7 +35,24 @@ def DisplayBoard():
     print('Player 2: ' + player2 + " is O")
 
 
-def turnHandler():
+def GameOverCheck():
+    winCheck()
+    tieCheck()
+
+
+def winCheck():
+    return
+
+
+def tieCheck():
+    return
+
+
+def changePlayer():
+    return
+
+
+def turnHandler(player):
     print("Input position [1 - 9]")
     position = input()
     position = int(position) - 1
@@ -45,7 +61,10 @@ def turnHandler():
 def playGame():
     playerName()
     DisplayBoard()
-    turnHandler()
+    while gameHasNext:
+        turnHandler(player)
+        GameOverCheck()
+        changePlayer()
 
 
 playGame()
