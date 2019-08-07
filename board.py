@@ -8,13 +8,13 @@
 #  change player
 
 
-GameBoard = [" _ ", " _ ", " _ ",
-             " _ ", " _ ", " _ ",
-             " _ ", " _ ", " _ "]
+GameBoard = ["_", "_", "_",
+             "_", "_", "_",
+             "_", "_", "_"]
 gameHasNext = True
 player1 = ""
 player2 = ""
-gameWinner = "no winner"
+gameWinner = None
 turnPlayer = "X"
 
 
@@ -30,10 +30,12 @@ def playerName():
 
 def DisplayBoard():
     # print(GameBoard)
-    print(GameBoard[0] + "| " + GameBoard[1] + "| " + GameBoard[2])
-    print(GameBoard[3] + "| " + GameBoard[4] + "| " + GameBoard[5])
-    print(GameBoard[6] + "| " + GameBoard[7] + "| " + GameBoard[8])
+    print(GameBoard[0] + " | " + GameBoard[1] + " | " + GameBoard[2])
+    print(GameBoard[3] + " | " + GameBoard[4] + " | " + GameBoard[5])
+    print(GameBoard[6] + " | " + GameBoard[7] + " | " + GameBoard[8])
 
+
+def playerDeclaration():
     print('Player 1: ' + player1 + " is X")
     print('Player 2: ' + player2 + " is O")
 
@@ -45,68 +47,74 @@ def GameOverCheck():
 
 def rowChecks():
     global gameHasNext
-    row_1 = GameBoard[0] == GameBoard[1] == GameBoard[2] != "-"
-    row_2 = GameBoard[3] == GameBoard[4] == GameBoard[5] != "-"
-    row_3 = GameBoard[6] == GameBoard[7] == GameBoard[8] != "-"
+    row_1 = GameBoard[0] == GameBoard[1] == GameBoard[2] != "_"
+    row_2 = GameBoard[3] == GameBoard[4] == GameBoard[5] != "_"
+    row_3 = GameBoard[6] == GameBoard[7] == GameBoard[8] != "_"
     if row_1 or row_2 or row_3:
         gameHasNext = False
-    elif row_1:
+    if row_1:
         return GameBoard[0]
     elif row_2:
         return GameBoard[3]
     elif row_3:
         return GameBoard[6]
-    return
+    else:
+        return None
 
 
 def columnChecks():
     global gameHasNext
-    col_1 = GameBoard[0] == GameBoard[3] == GameBoard[6] != "-"
-    col_2 = GameBoard[1] == GameBoard[4] == GameBoard[7] != "-"
-    col_3 = GameBoard[2] == GameBoard[5] == GameBoard[8] != "-"
+    col_1 = GameBoard[0] == GameBoard[3] == GameBoard[6] != "_"
+    col_2 = GameBoard[1] == GameBoard[4] == GameBoard[7] != "_"
+    col_3 = GameBoard[2] == GameBoard[5] == GameBoard[8] != "_"
     if col_1 or col_2 or col_3:
         gameHasNext = False
-    elif col_1:
+    if col_1:
         return GameBoard[0]
     elif col_2:
         return GameBoard[1]
     elif col_3:
         return GameBoard[2]
-    return
+    else:
+        return None
 
 
 def diagonalChecks():
     global gameHasNext
-    dia_1 = GameBoard[0] == GameBoard[4] == GameBoard[8] != "-"
-    dia_2 = GameBoard[2] == GameBoard[4] == GameBoard[6] != "-"
+    dia_1 = GameBoard[0] == GameBoard[4] == GameBoard[8] != "_"
+    dia_2 = GameBoard[2] == GameBoard[4] == GameBoard[6] != "_"
     if dia_1 or dia_2:
         gameHasNext = False
-    elif dia_1:
+    if dia_1:
         return GameBoard[0]
     elif dia_2:
         return GameBoard[1]
-    return
+    else:
+        return None
 
 
 def winCheck():
     global gameWinner
-    rowwinner = rowChecks
-    colwinner = columnChecks
-    diawinner = diagonalChecks
-    if rowwinner or colwinner or diawinner:
-        # winner this turn
-        # TODO winner assign
+    rowwinner = rowChecks()
+    colwinner = columnChecks()
+    diawinner = diagonalChecks()
+    if rowwinner:
+        gameWinner = rowwinner
+    elif colwinner:
+        gameWinner = colwinner
+    elif diawinner:
+        gameWinner = diawinner
     else:
-        # no winner this turn
         gameWinner = None
-    return
 
 
 def tieCheck():
     global gameHasNext
-    if "-" not in GameBoard:
+    if "_" not in GameBoard:
         gameHasNext = False
-    return
+        return True
+    else:
+        return False
 
 
 def changePlayer():
@@ -123,21 +131,24 @@ def turnHandler(player):
     position = input()
     position = int(position) - 1
     GameBoard[position] = player
+    DisplayBoard()
 
 
 def gameEnd():
     print("Game Over.")
-    if tieCheck():
-        print("Tie " + gameWinner)
-    elif gameWinner == "X" or gameWinner == "O":
+    if gameWinner == "X" or gameWinner == "O":
         print("winner is " + gameWinner)
+    if tieCheck():
+        print("Tie")
+
 
 
 def playGame():
     playerName()
+    playerDeclaration()
     DisplayBoard()
     while gameHasNext:
-        turnHandler()
+        turnHandler(turnPlayer)
         GameOverCheck()
         changePlayer()
     gameEnd()
