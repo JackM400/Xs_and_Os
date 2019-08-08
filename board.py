@@ -177,6 +177,10 @@ def gameEnd():
         print("Winner is " + gameWinner)
     if tieCheck():
         print("Tie")
+    print("Would you like to play again?")
+    rerun = input()
+    if rerun == "yes" or rerun == "Yes" or rerun == "y":
+        playGame()
 
 
 # run game
